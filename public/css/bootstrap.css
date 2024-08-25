@@ -185,7 +185,7 @@ pre {
   margin-top: 0;
   margin-bottom: 1rem;
   overflow: auto;
-  -ms-overflow-style: scrollbar;
+  overflow: scroll;
 }
 
 figure {
