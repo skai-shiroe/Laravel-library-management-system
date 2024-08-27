@@ -17,14 +17,16 @@ class ReportsController extends Controller
     {
         return view('report.dateWise', ['books' => '']);
     }
-
     public function generate_date_wise_report(Request $request)
     {
         $request->validate(['date' => "required|date"]);
-        return view('report.dateWise', [
-            'books' => book_issue::where('issue_date', $request->date)->latest()->get()
-        ]);
+    
+        // Utiliser whereDate pour filtrer par date seulement
+        $books = book_issue::whereDate('issue_date', $request->date)->latest()->get();
+    
+        return view('report.dateWise', compact('books'));
     }
+    
 
     public function month_wise()
     {
@@ -41,8 +43,10 @@ class ReportsController extends Controller
 
     public function not_returned()
     {
-        return view('report.notReturned',[
-            'books' => book_issue::latest()->get()
-        ]);
+        // Récupère uniquement les livres qui n'ont pas été retournés
+        $books = book_issue::whereNull('return_date')->latest()->get();
+    
+        return view('report.notReturned', compact('books'));
     }
+    
 }
